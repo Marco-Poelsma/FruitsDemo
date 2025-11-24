@@ -1,17 +1,22 @@
 
 import SwiftUI
-
-//TODO: Create a list
-//TODO: Create the navigation
 struct ContentView: View {
+    @StateObject var fruitStore = FruitStore()
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+        NavigationView {
+            List(fruitStore.fruits) { fruit in
+                NavigationLink(destination: DetailFruitView(fruit: fruit)) {
+                    HStack {
+                        Text(fruit.emoji.rawValue)
+                            .font(.largeTitle)
+                        Text(fruit.name)
+                            .font(.headline)
+                    }
+                    .padding(.vertical, 5)
+                }
+            }
+            .navigationTitle("Fruits 🍉")
+        }
     }
 }
