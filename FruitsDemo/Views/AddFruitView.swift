@@ -23,7 +23,10 @@ struct AddFruitView: View {
                     fruitStore.fruits.append(newFruit)
                     newFruit = Fruit(name: "", emoji: .apple, description: "")
                 }
-                .disabled(newFruit.name.trimmingCharacters(in: .whitespaces).isEmpty)
+                .disabled(
+                    newFruit.name.trimmingCharacters(in: .whitespaces).isEmpty ||
+                    fruitStore.fruits.contains(where: { $0.name.lowercased() == newFruit.name.trimmingCharacters(in: .whitespaces).lowercased() })
+                )
         )
     }
 }
