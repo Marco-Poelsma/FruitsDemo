@@ -6,8 +6,7 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-
-            // TAB 1 — Lista de frutas
+            
             NavigationView {
                 List(fruitStore.fruits) { fruit in
                     NavigationLink(destination: DetailFruitView(fruit: fruit)) {
@@ -27,17 +26,9 @@ struct ContentView: View {
                 Text("Fruits")
             }
 
-            // TAB 2 — Añadir fruta
             NavigationView {
-                AddFruitView(newFruit: $newFruit)
+                AddFruitView(newFruit: $newFruit, fruitStore: fruitStore)
                     .navigationTitle("Add Fruit")
-                    .navigationBarItems(
-                        trailing:
-                            Button("Save") {
-                                fruitStore.fruits.append(newFruit)
-                                newFruit = Fruit(name: "", emoji: .apple, description: "")
-                            }
-                    )
             }
             .tabItem {
                 Image(systemName: "plus.circle")

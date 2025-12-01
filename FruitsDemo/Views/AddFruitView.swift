@@ -1,9 +1,9 @@
-
 import SwiftUI
 
 struct AddFruitView: View {
     
-    @Binding var newFruit:Fruit
+    @Binding var newFruit: Fruit
+    @ObservedObject var fruitStore: FruitStore
     
     var body: some View {
         Form {
@@ -15,18 +15,17 @@ struct AddFruitView: View {
             }
             Section(header: Text("Image")) {
                 EmojiPicker(emoji: $newFruit.emoji)
-                    //TODO: .listRowInsets(EdgeInsets())
             }
         }
-    }
-}
+        .navigationBarItems(
+            trailing:
+                Button("Save") {
+                    // 1. Añadir la fruta
+                    fruitStore.fruits.append(newFruit)
 
-struct AddFruitView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddFruitView(newFruit: .constant(FruitStore.defaultFruit))
-        AddFruitView(newFruit: .constant(FruitStore.defaultFruit))
-            .preferredColorScheme(.dark)
-        AddFruitView(newFruit: .constant(FruitStore.defaultFruit))
-            .previewLayout(.fixed(width: 480, height: 320))
+                    // 2. Resetear el formulario
+                    newFruit = Fruit(name: "", emoji: .apple, description: "")
+                }
+        )
     }
 }
