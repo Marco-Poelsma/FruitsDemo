@@ -7,16 +7,19 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            List(fruitStore.fruits) { fruit in
-                NavigationLink(destination: DetailFruitView(fruit: fruit)) {
-                    HStack {
-                        Text(fruit.emoji.rawValue)
-                            .font(.largeTitle)
-                        Text(fruit.name)
-                            .font(.headline)
+            List {
+                ForEach(fruitStore.fruits) { fruit in
+                    NavigationLink(destination: DetailFruitView(fruit: fruit)) {
+                        HStack {
+                            Text(fruit.emoji.rawValue)
+                                .font(.largeTitle)
+                            Text(fruit.name)
+                                .font(.headline)
+                        }
+                        .padding(.vertical, 5)
                     }
-                    .padding(.vertical, 5)
                 }
+                .onDelete(perform: deleteFruit)
             }
             .navigationTitle("Fruits 🍉")
             .navigationBarItems(
@@ -32,5 +35,9 @@ struct ContentView: View {
                 }
             }
         }
+    }
+    
+    private func deleteFruit(at offsets: IndexSet) {
+        fruitStore.fruits.remove(atOffsets: offsets)
     }
 }
