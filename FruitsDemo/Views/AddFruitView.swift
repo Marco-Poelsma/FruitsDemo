@@ -20,12 +20,10 @@ struct AddFruitView: View {
         .navigationBarItems(
             trailing:
                 Button("Save") {
-                    // 1. Añadir la fruta
                     fruitStore.fruits.append(newFruit)
-
-                    // 2. Resetear el formulario
                     newFruit = Fruit(name: "", emoji: .apple, description: "")
                 }
+                .disabled(newFruit.name.trimmingCharacters(in: .whitespaces).isEmpty)
         )
     }
 }
