@@ -4,6 +4,7 @@ struct AddFruitView: View {
     
     @Binding var newFruit: Fruit
     @ObservedObject var fruitStore: FruitStore
+    @Environment(\.presentationMode) var presentationMode   // <- para cerrar el sheet
     
     var body: some View {
         Form {
@@ -18,15 +19,19 @@ struct AddFruitView: View {
             }
         }
         .navigationBarItems(
-            trailing:
-                Button("Save") {
-                    fruitStore.fruits.append(newFruit)
-                    newFruit = Fruit(name: "", emoji: .apple, description: "")
-                }
-                .disabled(
-                    newFruit.name.trimmingCharacters(in: .whitespaces).isEmpty ||
-                    fruitStore.fruits.contains(where: { $0.name.lowercased() == newFruit.name.trimmingCharacters(in: .whitespaces).lowercased() })
-                )
+            leading: Button("Cancel") {
+                newFruit = Fruit(name: "", emoji: .apple, description: "")
+                presentationMode.wrappedValue.dismiss()
+            },
+            trailing: Button("Save") {
+                fruitStore.fruits.append(newFruit)
+                newFruit = Fruit(name: "", emoji: .apple, description: "")
+                presentationMode.wrappedValue.dismiss()
+            }
+            .disabled(
+                newFruit.name.trimmingCharacters(in: .whitespaces).isEmpty ||
+                fruitStore.fruits.contains(where: { $0.name.lowercased() == newFruit.name.trimmingCharacters(in: .whitespaces).lowercased() })
+            )
         )
     }
 }
